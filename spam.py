@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKF
 def split_into_tokens(message):
     if type(message) is float:
         message = str(message)
-    return TextBlob(message).words
+    return TextBlob(message).words# .noun_pairs / .tags
 
 
 def traintest(messages):
@@ -60,7 +60,7 @@ def tonyFunction(msg_train, msg_test, label_train, label_test, info):
     # msg_test = prepro(msg_test)
 
     pipeline = Pipeline([
-        ('bow', CountVectorizer(analyzer=split_into_tokens)),  # strings to token integer counts
+        ('bow', CountVectorizer(analyzer=split_into_tokens)),  # strings to token integer counts can use #stop_words('english)
         ('tfidf', TfidfTransformer()),  # integer counts to weighted TF-IDF scores
         ('classifier', MultinomialNB()),  # train on TF-IDF vectors w/ Naive Bayes classifier
     ])
@@ -159,10 +159,11 @@ msg_train4, msg_test4, label_train4, label_test4 = traintest(combined4)
 msg_trains1, label_trains1 = traintest2(shakira)
 msg_testp1, label_testp1 = traintest2(psy)
 msg_test4, label_test4 = traintest2(combined4)
-print('\nPsy')
 
 
-def grace(pro):
+
+def grace(pro):#Tests a combination of the 5 datasets
+    print('\nPsy')
     tonyFunction(msg_trainp,msg_testp, label_trainp, label_testp,pro+' Psy')
 
     print('\nKaty Perry')
